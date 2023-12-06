@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sh.chatting.ChatMapper">
+	
+	
+	<!-- 유저 코드확인 -->
+   <select id="cheackCode" resultType="boolean">
+      SELECT CASE
+      WHEN COUNT(*) > 0
+      THEN 1
+      ELSE 0
+      END AS result
+      FROM chat_tbl
+      WHERE buy_code = #{buy_code} AND
+      sell_code = #{sell_code} AND
+      board_id = #{board_id} AND
+      board_title = #{board_Title} AND
+      sell_nickname = #{sell_nickname} AND
+      buy_nickname = #{buy_nickname} 
+
+   </select>
+
+
+
+	<!-- 채팅 등록 -->
+   <insert id="insertChat" parameterType="ChatDTO">
+      INSERT INTO chat_tbl (
+
+      buy_code,
+      sell_code,
+      board_id,
+      board_title,
+      sell_nickname,
+      buy_nickname,
+      board_price,
+      board_img
+      )
+      VALUES (
+
+      #{buy_code},
+      #{sell_code},
+      #{board_id},
+      #{board_Title},
+      #{sell_nickname},
+      #{buy_nickname},
+      #{board_Price},
+      #{board_Img}
+      
+      )
+   </insert>
+	
+	<!-- 판매자코드 -->
+   <select id="selectChatSellCode" parameterType="String"
+      resultType="ChatDTO">
+      SELECT * FROM chat_tbl
+      WHERE buy_code = #{buy_code,
+      jdbcType=VARCHAR} OR
+      sell_code = #{buy_code,
+      jdbcType=VARCHAR}
+
+   </select>
+	
+	<!-- 채팅개수 확인 -->
+   <select id="selectCountCode" parameterType="String"
+      resultType="ChatDTO">
+      SELECT COUNT(*) FROM chat_tbl WHERE buy_code = #{buy_code}
+   </select>
+   
+	<!-- 해당 채팅확인 -->
+   <select id="selectChatChatCode" parameterType="String"
+      resultType="String">
+      SELECT chat_code FROM chat_tbl
+      WHERE chat_code =
+      #{chat_code}
+   </select>
+   	
+   	<!-- 채팅 삭제 -->
+    <delete id="deleteChatByCode" parameterType="String">
+    DELETE FROM chat_tbl
+    WHERE chat_code = #{chat_code,jdbcType=VARCHAR} AND buy_code= #{buy_code,jdbcType=VARCHAR}
+</delete>
+</mapper>

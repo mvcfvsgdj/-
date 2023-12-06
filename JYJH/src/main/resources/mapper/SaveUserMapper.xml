@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sh.saveUser.SaveUserMapper">
+
+<!-- 회원가입 등록 -->
+   <insert id="insertUser" parameterType="UserDTO">
+      INSERT INTO user_tbl
+      (user_kakao,user_id, user_pw, address,
+      phone_num, member_post,
+      member_addr, detailed_address, user_birth,
+      user_nickname, user_image,
+      user_heat)
+      VALUES (#{user_kakao},#{user_id}, #{user_pw},
+      #{address},
+      #{phone_num}, #{member_post}, #{member_addr},
+      #{detailed_address},
+      #{user_birth}, #{user_nickname}, #{user_image},
+      #{user_heat})
+   </insert>
+   
+   <!-- 유저아이디 조회 -->
+   <select id="getUserById" parameterType="String"
+      resultType="UserDTO">
+      SELECT * FROM user_tbl WHERE user_id = #{user_id}
+   </select>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.login.LoginMapper">
+
+	<!-- 로그인 여부확인 -->
+   <select id="checklogin" parameterType="LoginDTO"
+      resultType="LoginDTO">
+      SELECT * FROM user_tbl WHERE user_id = #{user_id} AND
+      user_pw = #{user_pw}
+   </select>
+	
+	<!-- 유저테이블 전체조회 -->
+   <select id="selectAllU" parameterType="LoginDTO"
+      resultType="LoginDTO">
+      SELECT * FROM user_tbl WHERE user_id = #{user_id}
+   </select>
+   
+   <!-- 관리자용 -->
+   <select id="selectAll" resultType="LoginDTO">
+      SELECT * FROM user_tbl
+   </select>
+	
+	<!-- user_id에 맞는 전체 조회 -->
+   <select id="selectUserById" parameterType="String" resultType="LoginDTO">
+      SELECT * FROM user_tbl WHERE user_id = #{userId}
+   </select>
+	
+	<!-- 유저 정보 수정 -->
+   <update id="updateUser" parameterType="LoginDTO">
+      UPDATE user_tbl
+      SET
+      user_pw = #{user_pw},
+      address = #{address},
+      phone_num = #{phone_num},
+      member_post = #{member_post},
+      member_addr = #{member_addr},
+      detailed_address = #{detailed_address},
+      user_nickname = #{user_nickname}
+      WHERE user_id = #{user_id}
+   </update>
+   
+   <!-- 회원 이미지 수정 -->
+   <update id="updateUserImg" parameterType="LoginDTO">
+      UPDATE user_tbl
+      SET
+      user_image = #{user_image}
+      WHERE user_id = #{user_id}
+   </update>
+	
+	<!-- 유저 삭제 -->
+   <delete id="deleteUser" parameterType="LoginDTO">
+      DELETE FROM user_tbl WHERE user_id = #{user_id}
+   </delete>
+	
+	<!-- 유저 평점조회 -->
+   <select id="selectHeat" parameterType="String" resultType="String">
+      SELECT user_heat FROM user_tbl WHERE user_code = #{user_code}
+   </select>
+	
+	<!-- 해당 유저의 닉네임조회 -->
+   <select id="selectHeatU" parameterType="String" resultType="String">
+      SELECT user_nickname FROM user_tbl WHERE user_code = #{user_code}
+   </select>
+	
+	<!-- 평점 수정 -->
+   <update id="updateHeat" parameterType="String">
+      UPDATE user_tbl
+      SET
+      user_heat = #{user_heat, jdbcType=VARCHAR}
+      WHERE user_code = #{user_code, jdbcType=VARCHAR}
+   </update>
+	
+	<!-- 평점 저장 -->
+   <insert id="saveHeat" parameterType="LoginDTO">
+      INSERT INTO heat_tbl ( user_code, user_heat, heat_date, check_heat, board_id)
+      VALUES ( #{user_code}, #{user_heat}, CURRENT_TIMESTAMP, #{check_heat}, #{board_id})
+   </insert>
+	
+	<!-- 유저코드에 맞는 전체 평점 -->
+   <select id="getHeatByUserCode" parameterType="String" resultType="HeatChartDTO">
+      SELECT * FROM heat_tbl WHERE user_code = #{user_code, jdbcType=VARCHAR}
+   </select>
+   
+   <!-- 유저코드에 맞는 해당 게시물 id 조회 -->
+   <select id="getCheckHeatByUserCode" parameterType="String" resultType="String">
+      SELECT board_id FROM heat_tbl WHERE user_code = #{user_code, jdbcType=VARCHAR}
+   </select>
+   
+   <!-- 평가 여부 확인 -->
+   <select id="getCheckHeatByBoardId" parameterType="String" resultType="String">
+      SELECT check_heat FROM heat_tbl WHERE board_id = #{board_id, jdbcType=VARCHAR}
+   </select>
+</mapper>

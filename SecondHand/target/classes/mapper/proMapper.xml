@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sh.proMapper">
+   <!-- 게시글 작성 -->
+   <insert id="insertProduct" parameterType="ProductDTO">
+      INSERT INTO user_board
+      (
+
+      board_date,
+      board_title,
+      board_price,
+      board_text,
+      board_img,
+      board_likes,
+      board_soldout,
+      board_click ,
+      loc_code ,
+      detail_loc ,
+      user_code ,
+      user_nickname,
+      board_cate
+      )
+      VALUES (
+      CURRENT_TIMESTAMP,
+      #{board_Title} ,
+      #{board_Price} ,
+      #{board_Text} ,
+      #{board_Img} ,
+      #{board_Likes} ,
+      #{board_Soldout} ,
+      #{board_Click} ,
+      #{loc_code} ,
+      #{detail_loc} ,
+      #{user_code} ,
+      #{user_nickname} ,
+      #{board_cate})
+
+   </insert>
+   <!-- 게시글 전체 보기 -->
+   <select id="selectAll" resultType="ProductDTO">
+      SELECT
+      board_id,
+      DATE_FORMAT(board_date, '%m/%d %T') AS board_date,
+      board_title,
+      board_price,
+      board_text,
+      board_img,
+      board_likes,
+      board_soldout,
+      board_click,
+      loc_code,
+      detail_loc,
+      user_code,
+      user_nickname,
+      board_cate
+      FROM
+      user_board
+      ORDER BY
+      board_date DESC;
+   </select>
+
+   <!-- 게시글 상세 보기 -->
+   <select id="selectProImagesById" resultType="ProductDTO">
+      SELECT
+      ub.board_id,
+      DATE_FORMAT(board_date, '%m/%d %T') AS board_date,
+      ub.board_title,
+      ub.board_price,
+      ub.board_text,
+      ub.board_img,
+      ub.board_likes,
+      ub.board_soldout,
+      ub.board_click,
+      ub.loc_code,
+      ub.detail_loc,
+      ub.user_code ,
+      ub.user_nickname,
+      ub.board_cate
+      FROM user_board ub
+      WHERE
+      ub.board_id = #{boardId}
+   </select>
+
+
+   <!-- 게시글 수정 -->
+
+   <update id="updateProduct" parameterType="ProductDTO">
+      UPDATE user_board
+      SET
+
+      board_title = #{board_Title},
+      board_price = #{board_Price},
+      board_text =
+      #{board_Text},
+      board_img = #{board_Img},
+
+      loc_code = #{loc_code},
+      detail_loc = #{detail_loc},
+      user_code = #{user_code},
+      user_nickname =
+      #{user_nickname}
+      WHERE board_id = #{board_Id}
+   </update>
+
+   <!-- 게시글삭제 -->
+   <delete id="deleteProduct" parameterType="String">
+      DELETE FROM user_board
+      WHERE board_id = #{board_id}
+
+
+   </delete>
+	
+	<!-- 좋아요 삭제 -->
+   <delete id="deleteProduct2" parameterType="String">
+      DELETE FROM board_like
+      WHERE board_id = #{board_id}
+
+
+   </delete>
+   
+   <!-- 유저게시글 전체 삭제 -->
+   <delete id="deleteProduct3" parameterType="String">
+      DELETE FROM user_board
+      WHERE user_code = #{user_code}
+
+
+   </delete>
+   <!-- 유저아이디에 맞는 좋아요 삭제 -->
+   <delete id="deleteProduct4" parameterType="String">
+      DELETE FROM board_like
+      WHERE user_id = #{user_id}
+
+
+   </delete>
+
+
+
+
+
+
+
+
+   <!-- 조회수 +1 -->
+
+   <update id="increaseClick" parameterType="String">
+      UPDATE user_board
+      SET
+      board_click = board_click + 1
+      WHERE board_id = #{boardId}
+   </update>
+
+   <!-- 끌어올리기 -->
+
+
+<update id="updateDate" parameterType="Map">
+   UPDATE user_board
+   SET board_date = CURRENT_TIMESTAMP
+   WHERE board_id = #{boardId}
+</update>
+
+
+   <!-- 카테고리영역 -->
+
+   <select id="getAllCategory" resultType="cateDTO"
+      parameterType="String">
+      SELECT loc_code, detail_loc FROM cate where loc_code=
+      #{loc_code}
+   </select>
+   <select id="getAllCategories" resultType="cateDTO"
+      parameterType="String">
+      SELECT loc_code, detail_loc FROM cate where loc_code=
+      #{loc_code}
+   </select>
+
+
+   <!-- 좋아요 부분 -->
+   <insert id="insertLike" parameterType="ProductDTO">
+      INSERT INTO board_like
+      ( board_id, user_id)
+      VALUES (#{boardId},
+      #{userId})
+   </insert>
+   <select id="getlikeDelete">
+      delete from board_like where user_id =#{userId} and
+      board_id =#{boardId}
+   </select>
+   <!-- 상품상세_좋아요 개수 -->
+   <select id="getLikeCount" resultType="int">
+      SELECT COUNT(*) AS
+      likeCount
+      FROM board_like
+      WHERE board_id = #{boardId}
+   </select>
+   <!-- 좋아요 눌렀는지 -->
+   <select id="getlikeClick" resultType="boolean">
+      SELECT CASE
+      WHEN COUNT(*) >
+      0 THEN 1
+      ELSE 0
+      END AS result
+      FROM board_like
+      WHERE user_id = #{userId}
+      AND board_id =
+      #{boardId}
+   </select>
+   <!-- 관심상품 개수 -->
+   <select id="getLikeNum" resultType="int">
+      select count(*) from
+      board_like where user_id = #{userId}
+   </select>
+
+
+</mapper>

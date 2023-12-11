@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="KakaoUserDTO"
+			type="com.sh.kakaologin.domain.KakaoUserDTO" />
+		<typeAlias alias="LoginDTO"
+			type="com.sh.login.domain.LoginDTO" />
+		<typeAlias alias="UserDTO"
+			type="com.sh.saveUser.domain.UserDTO" />
+		<typeAlias alias="AddressDTO"
+			type="com.sh.address.domain.AddressDTO" />
+		<typeAlias alias="cateDTO"
+			type="com.sh.product.domain.cateDTO" />
+		<typeAlias alias="ProductDTO"
+			type="com.sh.product.domain.ProductDTO" />
+		<typeAlias alias="ScrollDTO"
+			type="com.sh.scroll.domain.ScrollDTO" />
+		<typeAlias alias="OrderDTO"
+			type="com.sh.order.domain.OrderDTO" />
+		<typeAlias alias="ChatDTO"
+			type="com.sh.chatting.domain.ChatDTO" />
+		<typeAlias alias="QnaDTO" type="com.sh.qna.domain.QnaDTO" />
+		<typeAlias alias="HeatChartDTO"
+			type="com.sh.login.domain.HeatChartDTO" />
+		
+	</typeAliases>
+</configuration>

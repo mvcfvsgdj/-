@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.kakaologin.KakaoUserMapper">
+
+   <insert id="insertUser" parameterType="KakaoUserDTO">
+        INSERT INTO kakaousertbl (id, nickname, profile_image)
+        VALUES (#{id}, #{nickname}, #{profile_image})
+    </insert>
+    
+    <select id="selectAll" resultType="KakaoUserDTO">
+		SELECT *
+		FROM kakaousertbl
+	</select>
+
+</mapper>

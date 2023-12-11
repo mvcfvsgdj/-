@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.order.OrderMapper">
+
+	<!-- 주문테이블 등록 -->
+   <insert id="insertOrder" parameterType="OrderDTO">
+      INSERT INTO order_tbl (
+         user_code,
+         user_id,
+         user_nickname,
+         phone_num,
+         board_id,
+         board_title,
+         board_price,
+         member_post,
+         member_addr,
+         detailed_address,
+         delivery_req,
+         order_date,
+         sell_code
+      )
+      VALUES (
+         #{user_code},
+         #{user_id},
+         #{user_nickname},
+         #{phone_num},
+         #{board_id},
+         #{board_title},
+         #{board_price},
+         #{member_post},
+         #{member_addr},
+         #{detailed_address},
+         #{delivery_req},
+         CURRENT_DATE,
+         #{sell_code}
+      )
+   </insert>
+
+
+<!-- 유저아이디에 맞는 주문내역 전체 조회 -->
+<select id="selectAll" resultType="OrderDTO" parameterType="String">
+    SELECT *
+    FROM order_tbl
+    WHERE user_id = #{user_id}
+</select>
+
+<!-- 보드아이디 조회 -->
+<select id="selectBoardId" resultType="String" parameterType="String">
+    SELECT board_id
+    FROM heat_tbl
+    WHERE board_id = #{board_id}
+</select>
+
+<!-- 유저아이디에 맞는 주문내역 삭제 -->
+  <delete id="deleteProduct5" parameterType="String">
+      DELETE FROM order_tbl
+      WHERE user_id = #{user_id}
+
+
+   </delete>
+</mapper>
